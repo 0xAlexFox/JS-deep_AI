@@ -1,10 +1,10 @@
-import { TARGET_CURRENCY } from './config.js';
+import { DEFAULT_TARGET_CURRENCY } from './config.js';
 import { normalizeCurrency, toCents, addCents } from './money.js';
-import { convertToUsdCents } from './currency.js';
+import { convertCurrencyCents } from './currency.js';
 
 // Сначала собираем отдельные суммы валют. Map хранит пары «валюта -> центы»:
 // например, USD -> 302000 и EUR -> 191000. Их ещё нельзя складывать друг с другом.
-function collectTotalsInCents(source1, source2) {
+export function collectTotalsInCents(source1, source2) {
   if (!Array.isArray(source1?.transactions) || !Array.isArray(source2)) {
     throw new Error('Ожидаются объект с массивом transactions и массив строк.');
   }
@@ -65,21 +65,25 @@ export function calculateRevenueByCurrency(source1, source2) {
   return Object.fromEntries(Array.from(totals, ([currency, cents]) => [currency, cents / 100]));
 }
 
-// Часть 4: передаём загруженную таблицу курсов и получаем общий итог в USD.
-// Расчёт не делает запросов и не меняет входные данные — его удобно тестировать.
-export function calculateDailyRevenue(source1, source2, rates = {}) {
-  const totals = collectTotalsInCents(source1, source2);
-  let totalUsdCents = 0;
+// Пересчёт уже собранных валютных групп. Map хранит точные целые суммы:
+// при смене цели не переводим округлённый общий итог из одной валюты в другую.
+export function calculateTotalInCurrency(totals, rates = {}, targetCurrency = DEFAULT_TARGET_CURRENCY) {
+  const target = normalizeCurrency(targetCurrency);
+  let totalCents = 0;
 
   for (const [currency, cents] of totals) {
     // Нулевая продажа не увеличивает итог и не нуждается в курсе.
     if (cents === 0) {
       continue;
     }
-    const converted = convertToUsdCents(cents, currency, rates);
-    totalUsdCents = addCents(totalUsdCents, converted);
+    const converted = convertCurrencyCents(cents, currency, target, rates);
+    totalCents = addCents(totalCents, converted);
   }
 
-  // При пустых источниках также возвращаем 0 USD: целевая валюта задана явно.
-  return { total: totalUsdCents / 100, currency: TARGET_CURRENCY };
+  return { total: totalCents / 100, currency: target };
+}
+
+// По умолчанию поведение прежнее — USD. Четвёртый аргумент позволяет выбрать цель.
+export function calculateDailyRevenue(source1, source2, rates = {}, targetCurrency = DEFAULT_TARGET_CURRENCY) {
+  return calculateTotalInCurrency(collectTotalsInCents(source1, source2), rates, targetCurrency);
 }

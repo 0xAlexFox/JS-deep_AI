@@ -146,3 +146,22 @@ test('Проверяется общая сумма после объединен
     '50000000000000 USD', '50000000000000 EUR',
   ], { EUR: 1 }), /Общая выручка превышает/);
 });
+
+test('Слишком большая строковая сумма не теряет сотую долю при преобразовании', () => {
+  // Раньше Number превращал .91 в .90, и проверка безопасных целых этого не замечала.
+  assert.throws(() => calculateDailyRevenue(emptySource, ['90071992547409.91 USD']), /безопасный диапазон/);
+});
+
+test('Предел точности денег проверяется при сложении, даже без переполнения целого', () => {
+  assert.throws(() => calculateDailyRevenue(emptySource, [
+    '40000000000000 USD', '40000000000000 USD',
+  ]), /Общая выручка превышает/);
+});
+
+test('Допустимая большая сумма сохраняет обе цифры после точки', () => {
+  const result = calculateDailyRevenue(emptySource, ['50000000000000.01 USD']);
+  const format = new Intl.NumberFormat('en-US', {
+    useGrouping: false, minimumFractionDigits: 2, maximumFractionDigits: 2,
+  });
+  assert.equal(format.format(result.total), '50000000000000.01');
+});

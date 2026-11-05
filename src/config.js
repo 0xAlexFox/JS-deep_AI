@@ -5,7 +5,9 @@ export const FINANCE_URLS = [
   '/api/finance2',
 ];
 
-export const TARGET_CURRENCY = 'USD';
+// База таблицы курсов постоянная, а начальную целевую валюту можно сменить в UI.
+export const RATES_BASE_CURRENCY = 'USD';
+export const DEFAULT_TARGET_CURRENCY = 'USD';
 
 // Курсы относительно USD: например, rates.EUR — сколько евро стоит 1 доллар.
 // Документация: https://www.exchangerate-api.com/docs/free

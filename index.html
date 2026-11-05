@@ -1,20 +1,88 @@
 <!doctype html>
 <html lang="ru">
-
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Выручка за день</title>
+  <meta name="theme-color" content="#16634d" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>Сводка — выручка за день</title>
 </head>
-
 <body>
-  <div id="app">
-    <p>Результат расчёта выручки выводится в консоль разработчика.</p>
-    <p><a href="https://www.exchangerate-api.com">Курсы валют: ExchangeRate-API</a></p>
-  </div>
+  <main id="app" class="dashboard" data-state="loading" aria-busy="true">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Сводка — главная страница">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 15v4m7-10v10m7-16v16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+        Сводка<span class="brand-divider" aria-hidden="true"></span><span class="brand-caption">Финансы</span>
+      </a>
+      <label class="target-label" for="target-currency">Целевая валюта
+        <select id="target-currency" class="target-select" disabled><option value="">—</option></select>
+      </label>
+    </header>
+
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">Обзор продаж</p>
+        <h1>Выручка за день</h1>
+        <p class="page-description">Два источника продаж. Все валюты — в одном отчёте.</p>
+      </div>
+      <button id="refresh-button" class="button button-primary" type="button" disabled>
+        <svg class="refresh-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M20 7v5h-5M4 17v-5h5M6.1 7a7 7 0 0 1 11.55-1.5L20 8M4 16l2.35 2.5A7 7 0 0 0 17.9 17" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="refresh-label">Обновляем…</span>
+      </button>
+    </div>
+    <p class="load-status" role="status" aria-live="polite"><span class="status-dot" aria-hidden="true"></span><span id="load-status">Получаем продажи и курсы валют</span></p>
+
+    <section id="loading-panel" class="loading-panel" aria-label="Загрузка отчёта">
+      <div class="skeleton skeleton-label"></div><div class="skeleton skeleton-total"></div>
+      <p>Собираем оплаченные продажи и загружаем курсы для пересчёта.</p>
+      <div class="loading-grid" aria-hidden="true"><div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div></div>
+    </section>
+
+    <section id="error-panel" class="error-panel" role="alert" hidden>
+      <span class="error-icon" aria-hidden="true">!</span>
+      <h2 id="error-heading" tabindex="-1">Не удалось загрузить отчёт</h2>
+      <p id="error-message">Не удалось получить или обработать все данные. Повторите попытку. Если ошибка повторится, откройте подробности ниже.</p>
+      <button id="retry-button" class="button button-primary" type="button">Попробовать ещё раз</button>
+      <details id="error-disclosure"><summary>Подробности ошибки</summary><p id="error-details"></p></details>
+    </section>
+
+    <div id="report-panel" hidden>
+      <section class="total-card" aria-labelledby="total-heading">
+        <div class="total-main">
+          <p id="total-heading" class="total-label">Общая выручка</p>
+          <p class="total-amount"><output id="total-value" aria-live="polite">—</output><span id="total-currency" class="total-currency">USD</span></p>
+          <p class="total-caption"><span class="caption-icon" aria-hidden="true">↗</span> <span id="total-caption-text">Все учтённые валюты пересчитаны в USD</span></p>
+        </div>
+        <div class="total-explanation">
+          <span class="total-badge">Единый итог</span>
+          <p>Только оплаченные продажи</p>
+          <span>Ожидающие и отклонённые платежи первого источника не входят в расчёт.</span>
+        </div>
+      </section>
+
+      <section class="section currencies-section" aria-labelledby="currencies-heading">
+        <div class="section-heading"><h2 id="currencies-heading">Суммы по валютам</h2><span id="currency-section-label" class="section-label">До пересчёта в USD</span></div>
+        <ul id="currency-list" class="currency-grid" aria-label="Выручка в исходных валютах"></ul>
+      </section>
+
+      <section class="section rates-section" aria-labelledby="rates-heading">
+        <div class="section-heading"><h2 id="rates-heading">Курсы валют</h2><span class="section-label">Для валют в этом отчёте</span></div>
+        <div class="rates-card">
+          <div class="rates-update"><span class="update-dot" aria-hidden="true"></span>Обновлено поставщиком: <time id="rates-updated"></time></div>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Таблица курсов валют">
+            <table>
+              <caption id="rate-table-caption" class="visually-hidden">Курсы для пересчёта выручки в USD</caption>
+              <thead><tr><th scope="col">Валюта</th><th scope="col">За 1 единицу валюты</th><th id="rate-target-heading" scope="col">Обратный курс: 1 USD</th></tr></thead>
+              <tbody id="rates-body"></tbody>
+            </table>
+          </div>
+          <p class="rates-footnote">Курсы обновляются ежедневно. Итог каждой валюты округляется до двух знаков после пересчёта.</p>
+        </div>
+      </section>
+    </div>
+    <footer class="page-footer"><span id="report-footer-text">Продажи из двух источников · Итог в USD</span><a href="https://www.exchangerate-api.com" target="_blank" rel="noopener noreferrer">Курсы: ExchangeRate-API <span aria-hidden="true">↗</span></a></footer>
+    <noscript>Для загрузки отчёта включите JavaScript в браузере.</noscript>
+  </main>
   <script type="module" src="/src/main.js"></script>
-
 </body>
-
 </html>

@@ -27,7 +27,7 @@ export default defineConfig(({ command }) => {
       fs: {
         // Сохраняем стандартные запреты Vite и дополнительно закрываем
         // локальные файлы, серверные модули и конфигурацию от HTTP-запросов.
-        deny: ['.env', '.env.*', '*.{crt,pem}', '**/.git/**', '**/*.local', '**/server/**', '**/vite.config.*'],
+        deny: ['.env', '.env.*', '*.{crt,pem}', '**/.git/**', '**/.local/**', '**/*.local', '**/server/**', '**/vite.config.*'],
       },
     },
     preview: {
