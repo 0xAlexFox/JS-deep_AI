@@ -1,11 +1,6 @@
-import './style.css';
-import { createDashboardController } from './dashboard.js';
-import { createDashboardView } from './view.js';
+// Точка входа: Vue управляет всем содержимым #app.
+import { createApp } from 'vue'
+import './style.css'
+import App from './App.vue'
 
-// Точка входа соединяет модули: view обновляет DOM, controller управляет
-// загрузкой и состояниями, а расчёты по-прежнему выполняются в revenue.js.
-const view = createDashboardView(document.querySelector('#app'));
-const controller = createDashboardController({ view });
-view.onRefresh(controller.refresh);
-view.onCurrencyChange(controller.changeCurrency);
-controller.refresh();
+createApp(App).mount('#app')

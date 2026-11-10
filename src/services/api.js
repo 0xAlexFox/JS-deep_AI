@@ -3,7 +3,7 @@ import {
   RATES_URL,
   RATES_BASE_CURRENCY,
   REQUEST_TIMEOUT_MS,
-} from './config.js';
+} from '../config.js';
 
 // Общая функция для GET-запросов. fetchImpl можно заменить в тестах:
 // так проверки не зависят от доступности серверов и текущих курсов.
@@ -11,12 +11,16 @@ export async function fetchJson(url, {
   headers = {},
   fetchImpl = globalThis.fetch,
   timeoutMs = REQUEST_TIMEOUT_MS,
+  signal,
 } = {}) {
   let response;
   try {
     response = await fetchImpl(url, {
       headers,
-      signal: AbortSignal.timeout(timeoutMs),
+      // Отмена компонента и тайм-аут прерывают один и тот же запрос.
+      signal: signal
+        ? AbortSignal.any([signal, AbortSignal.timeout(timeoutMs)])
+        : AbortSignal.timeout(timeoutMs),
     });
   } catch (error) {
     throw new Error(`Не удалось загрузить ${url}: ${error.message}`, { cause: error });

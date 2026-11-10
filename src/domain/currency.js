@@ -1,4 +1,4 @@
-import { RATES_BASE_CURRENCY } from './config.js';
+import { RATES_BASE_CURRENCY } from '../config.js';
 import { normalizeCurrency } from './money.js';
 
 // Любой курс в таблице означает количество единиц валюты за 1 USD.

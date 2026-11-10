@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { fetchJson, loadFinanceSources, loadUsdRates } from '../src/api.js';
+import { fetchJson, loadFinanceSources, loadUsdRates } from '../src/services/api.js';
 import { FINANCE_URLS, RATES_URL } from '../src/config.js';
-import { calculateDailyRevenue } from '../src/revenue.js';
+import { calculateDailyRevenue } from '../src/domain/revenue.js';
 
 const jsonResponse = (data, status = 200) => new Response(JSON.stringify(data), {
   status, headers: { 'Content-Type': 'application/json' },
@@ -86,6 +86,18 @@ test('Ошибка одного источника отклоняет общую
     fetchImpl: async (url) => url === FINANCE_URLS[0]
       ? jsonResponse({ transactions: [] }) : jsonResponse({}, 500),
   }), /HTTP 500.*finance2/);
+});
+
+test('Отмена экрана прерывает HTTP-запрос до истечения тайм-аута', async () => {
+  const controller = new AbortController();
+  const pending = fetchJson(FINANCE_URLS[0], {
+    signal: controller.signal,
+    fetchImpl: (url, { signal }) => new Promise((resolve, reject) => {
+      signal.addEventListener('abort', () => reject(signal.reason), { once: true });
+    }),
+  });
+  controller.abort();
+  await assert.rejects(pending, /Не удалось загрузить.*finance1/);
 });
 
 for (const payload of [

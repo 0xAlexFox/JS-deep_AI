@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { calculateDailyRevenue, calculateRevenueByCurrency } from '../src/revenue.js';
+import { calculateDailyRevenue, calculateRevenueByCurrency } from '../src/domain/revenue.js';
 
 const emptySource = { transactions: [] };
 const paid = (amount, currency = 'USD') => ({ type: 'paid', amount, currency });

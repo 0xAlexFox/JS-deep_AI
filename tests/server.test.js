@@ -84,7 +84,14 @@ before(async () => {
       response.end(JSON.stringify({ error: 'Не API' }));
     });
   });
-  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  await new Promise((resolve, reject) => {
+    // Запрет локального порта должен завершать тест ошибкой, а не подвешивать его.
+    server.once('error', reject);
+    server.listen(0, '127.0.0.1', () => {
+      server.off('error', reject);
+      resolve();
+    });
+  });
   port = server.address().port;
 });
 
@@ -101,7 +108,7 @@ beforeEach(() => {
 });
 
 after(async () => {
-  await new Promise((resolve) => server.close(resolve));
+  if (server?.listening) await new Promise((resolve) => server.close(resolve));
   rmSync(directory, { recursive: true });
 });
 

@@ -1,4 +1,4 @@
-import { DEFAULT_TARGET_CURRENCY } from './config.js';
+import { DEFAULT_TARGET_CURRENCY } from '../config.js';
 import { normalizeCurrency, toCents, addCents } from './money.js';
 import { convertCurrencyCents } from './currency.js';
 

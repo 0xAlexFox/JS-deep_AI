@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
 import { loadServerConfig } from './server/config.js';
 import { createFinanceMiddleware } from './server/finance-proxy.js';
 
@@ -19,7 +20,7 @@ export default defineConfig(({ command }) => {
   };
 
   return {
-    plugins: [localApi],
+    plugins: [vue(), localApi],
     server: {
       host: '127.0.0.1',
       port: config?.port ?? 5173,

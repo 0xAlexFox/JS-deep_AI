@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { getExchangeRate, convertCurrencyCents } from '../src/currency.js';
-import { calculateDailyRevenue } from '../src/revenue.js';
+import { getExchangeRate, convertCurrencyCents } from '../src/domain/currency.js';
+import { calculateDailyRevenue } from '../src/domain/revenue.js';
 
 const source1 = { transactions: [{ type: 'paid', amount: 100, currency: 'USD' }] };
 const source2 = ['300 EUR', '50 GBP', '400 AED'];

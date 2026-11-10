@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { loadRevenueReport, createDashboardController } from '../src/dashboard.js';
-import { loadExchangeRates } from '../src/api.js';
+import { watch } from 'vue';
+import { loadRevenueReport } from '../src/services/reports.js';
+import { useRevenueReport } from '../src/composables/useRevenueReport.js';
+import { loadExchangeRates } from '../src/services/api.js';
 import { RATES_URL } from '../src/config.js';
 
 const updatedAt = '2026-11-05T00:00:00.000Z';
@@ -84,19 +86,23 @@ for (const metadata of [{}, { time_last_update_utc: null }, { time_last_update_u
   });
 }
 
-// Подмена только представления и загрузчика. Глобальный fetch не меняем.
+// Наблюдаем за реальным реактивным состоянием Vue, без DOM и глобального fetch.
 function harness(loadReport) {
   const events = [];
-  const view = {
-    showLoading: () => events.push(['loading']),
-    showReport: (report) => events.push(['ready', report]),
-    showError: (error) => events.push(['error', error]),
-  };
   const logger = {
     log: (...args) => events.push(['log', ...args]),
     error: (...args) => events.push(['console-error', ...args]),
   };
-  return { events, ...createDashboardController({ view, logger, loadReport }) };
+  const state = useRevenueReport({ logger, loadReport });
+  watch(state.status, (status) => {
+    if (status === 'loading') events.push(['loading']);
+    if (status === 'ready') events.push(['ready', state.report.value]);
+    if (status === 'error') events.push(['error', state.error.value]);
+  }, { flush: 'sync' });
+  watch(state.report, (report) => {
+    if (report && state.status.value === 'ready') events.push(['ready', report]);
+  }, { flush: 'sync' });
+  return { events, ...state };
 }
 const exampleReport = {
   result: { total: 475, currency: 'USD' },
@@ -305,4 +311,20 @@ test('После ошибки диапазона при конвертации �
   changeCurrency('USD');
   assert.deepEqual(events.at(-2)[1].result, report.result);
   assert.equal(requests, 1);
+});
+
+test('Закрытие экрана игнорирует ошибку отменённого запроса и запрещает новую загрузку', async () => {
+  let reject;
+  let calls = 0;
+  const { events, refresh, dispose } = harness(() => {
+    calls += 1;
+    return new Promise((resolve, fail) => { reject = fail; });
+  });
+  const pending = refresh();
+  dispose();
+  reject(new Error('Запрос отменён'));
+  await pending;
+  await refresh();
+  assert.deepEqual(events, [['loading']]);
+  assert.equal(calls, 1);
 });
