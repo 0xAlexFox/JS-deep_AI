@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { flushPromises, mount } from '@vue/test-utils';
 import App from '../../src/App.vue';
+import { createMemoryHistory } from 'vue-router';
+import { createAppRouter } from '../../src/router.js';
 import { loadRevenueReport } from '../../src/services/reports.js';
 
 // Подменяем границу API. Компоненты, composable и денежные расчёты настоящие.
@@ -18,7 +20,11 @@ const makeReport = () => ({
 });
 
 let wrapper;
-beforeEach(() => {
+let router;
+beforeEach(async () => {
+  router = createAppRouter({ history: createMemoryHistory(), scroll: false });
+  await router.push('/');
+  await router.isReady();
   vi.spyOn(console, 'log').mockImplementation(() => {});
   vi.spyOn(console, 'error').mockImplementation(() => {});
   loadReport.mockReset().mockResolvedValue(makeReport());
@@ -30,7 +36,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 function start() {
-  wrapper = mount(App, { attachTo: document.body });
+  wrapper = mount(App, { attachTo: document.body, global: { plugins: [router] } });
   return wrapper;
 }
 const digits = (text) => text.replace(/\s/g, '');
@@ -183,5 +189,78 @@ describe('Экран выручки на Vue', () => {
     await flushPromises();
     expect(console.log).not.toHaveBeenCalled();
     expect(console.error).not.toHaveBeenCalled();
+  });
+
+  it('открывает /sources напрямую без загрузки финансовых данных', async () => {
+    await router.push('/sources');
+    const page = start();
+    await flushPromises();
+    expect(page.get('h1').text()).toBe('Источники данных');
+    expect(document.title).toBe('Сводка — источники данных');
+    expect(page.findAll('.source-row')).toHaveLength(3);
+    expect(page.text()).toContain('/api/finance1');
+    expect(page.text()).toContain('/api/finance2');
+    expect(page.text()).toContain('open.er-api.com/v6/latest/USD');
+    expect(page.get('.app-nav a[href="/sources"]').attributes('aria-current')).toBe('page');
+    expect(page.find('#target-currency').exists()).toBe(false);
+    expect(page.find('#loading-panel').exists()).toBe(false);
+    expect(page.get('main').attributes('aria-busy')).toBe('false');
+    expect(loadReport).not.toHaveBeenCalled();
+    expect(page.text()).not.toContain('FINANCE_API_KEY');
+  });
+
+  it('показывает раскрываемые примеры как условную структуру ответа', async () => {
+    await router.push('/sources');
+    const page = start();
+    const details = page.get('.source-example');
+    expect(details.element.open).toBe(false);
+    details.get('summary').element.click();
+    await flushPromises();
+    expect(details.element.open).toBe(true);
+    expect(details.get('pre').text()).toContain('"transactions"');
+    expect(details.text()).toContain('Пример структуры');
+    expect(page.text()).toContain('курс условный');
+    expect(loadReport).not.toHaveBeenCalled();
+  });
+
+  it('навигация сохраняет EUR и готовый отчёт без дополнительных запросов', async () => {
+    const page = start();
+    await flushPromises();
+    await page.get('#target-currency').setValue('EUR');
+    await page.get('.app-nav a[href="/sources"]').trigger('click');
+    await vi.waitFor(() => expect(page.find('#sources-heading').exists()).toBe(true));
+    await page.get('.sources-back').trigger('click');
+    await vi.waitFor(() => expect(page.find('#total-value').exists()).toBe(true));
+    expect(page.get('#total-value').text()).toBe('380,00');
+    expect(page.get('#target-currency').element.value).toBe('EUR');
+    expect(loadReport).toHaveBeenCalledTimes(1);
+    expect(document.title).toBe('Сводка — выручка за день');
+  });
+
+  it('история назад/вперёд переключает страницы и активный пункт навигации', async () => {
+    const page = start();
+    await flushPromises();
+    await router.push('/sources');
+    router.back();
+    await vi.waitFor(() => expect(page.find('#total-value').exists()).toBe(true));
+    expect(page.get('.app-nav a[href="/"]').attributes('aria-current')).toBe('page');
+    router.forward();
+    await vi.waitFor(() => expect(page.find('#sources-heading').exists()).toBe(true));
+    expect(page.get('.app-nav a[href="/sources"]').attributes('aria-current')).toBe('page');
+    expect(loadReport).toHaveBeenCalledTimes(1);
+  });
+
+  it('переход во время загрузки сохраняет её результат для возвращения к отчёту', async () => {
+    let resolve;
+    loadReport.mockReturnValue(new Promise((done) => { resolve = done; }));
+    const page = start();
+    await router.push('/sources');
+    resolve(makeReport());
+    await flushPromises();
+    expect(page.find('#sources-heading').exists()).toBe(true);
+    await router.push('/');
+    await flushPromises();
+    expect(page.get('#total-value').text()).toBe('475,00');
+    expect(loadReport).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,34 +1,16 @@
 <script setup>
-defineProps({
-  currencies: { type: Array, required: true },
-  selectedCurrency: { type: String, required: true },
-  loading: Boolean,
-  canChangeCurrency: Boolean,
-});
-// Состояние принадлежит родителю: дочерний компонент сообщает только о действии.
-const emit = defineEmits(['refresh', 'changeCurrency']);
-function selectCurrency(event) {
-  emit('changeCurrency', event.target.value);
-}
+import { onMounted, useTemplateRef } from 'vue';
+defineProps({ loading: Boolean });
+const emit = defineEmits(['refresh']);
+const heading = useTemplateRef('heading');
+onMounted(() => heading.value?.focus({ preventScroll: true }));
 </script>
 
 <template>
-  <header class="topbar">
-    <a class="brand" href="/" aria-label="Сводка — главная страница">
-      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 15v4m7-10v10m7-16v16" stroke="currentColor" stroke-width="3" stroke-linecap="round" /></svg></span>
-      Сводка<span class="brand-divider" aria-hidden="true"></span><span class="brand-caption">Финансы</span>
-    </a>
-    <label class="target-label" for="target-currency">Целевая валюта
-      <select id="target-currency" class="target-select" :value="currencies.length ? selectedCurrency : ''" :disabled="!canChangeCurrency" @change="selectCurrency">
-        <option v-if="!currencies.length" value="">{{ loading ? '—' : 'Нет платежей' }}</option>
-        <option v-for="currency in currencies" :key="currency" :value="currency">{{ currency }}</option>
-      </select>
-    </label>
-  </header>
   <div class="page-heading">
     <div>
       <p class="eyebrow">Обзор продаж</p>
-      <h1>Выручка за день</h1>
+      <h1 ref="heading" tabindex="-1">Выручка за день</h1>
       <p class="page-description">Два источника продаж. Все валюты — в одном отчёте.</p>
     </div>
     <button id="refresh-button" class="button button-primary" type="button" :disabled="loading" @click="emit('refresh')">

@@ -1,0 +1,542 @@
+{
+  "source": "https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-one.xml",
+  "publishedAt": "2026-09-17",
+  "retrievedAt": "2026-11-13T11:51:46.436025+00:00",
+  "sha256": "33139b438657d1cee116ba737807ea71d19d6de4b90f799a09c56f0cc6a1b0ff",
+  "codes": {
+    "AED": {
+      "minorUnits": 2
+    },
+    "AFN": {
+      "minorUnits": 2
+    },
+    "ALL": {
+      "minorUnits": 2
+    },
+    "AMD": {
+      "minorUnits": 2
+    },
+    "AOA": {
+      "minorUnits": 2
+    },
+    "ARS": {
+      "minorUnits": 2
+    },
+    "AUD": {
+      "minorUnits": 2
+    },
+    "AWG": {
+      "minorUnits": 2
+    },
+    "AZN": {
+      "minorUnits": 2
+    },
+    "BAM": {
+      "minorUnits": 2
+    },
+    "BBD": {
+      "minorUnits": 2
+    },
+    "BDT": {
+      "minorUnits": 2
+    },
+    "BHD": {
+      "minorUnits": 3
+    },
+    "BIF": {
+      "minorUnits": 0
+    },
+    "BMD": {
+      "minorUnits": 2
+    },
+    "BND": {
+      "minorUnits": 2
+    },
+    "BOB": {
+      "minorUnits": 2
+    },
+    "BOV": {
+      "minorUnits": 2
+    },
+    "BRL": {
+      "minorUnits": 2
+    },
+    "BSD": {
+      "minorUnits": 2
+    },
+    "BTN": {
+      "minorUnits": 2
+    },
+    "BWP": {
+      "minorUnits": 2
+    },
+    "BYN": {
+      "minorUnits": 2
+    },
+    "BZD": {
+      "minorUnits": 2
+    },
+    "CAD": {
+      "minorUnits": 2
+    },
+    "CDF": {
+      "minorUnits": 2
+    },
+    "CHE": {
+      "minorUnits": 2
+    },
+    "CHF": {
+      "minorUnits": 2
+    },
+    "CHW": {
+      "minorUnits": 2
+    },
+    "CLF": {
+      "minorUnits": 4
+    },
+    "CLP": {
+      "minorUnits": 0
+    },
+    "CNY": {
+      "minorUnits": 2
+    },
+    "COP": {
+      "minorUnits": 2
+    },
+    "COU": {
+      "minorUnits": 2
+    },
+    "CRC": {
+      "minorUnits": 2
+    },
+    "CUP": {
+      "minorUnits": 2
+    },
+    "CVE": {
+      "minorUnits": 2
+    },
+    "CZK": {
+      "minorUnits": 2
+    },
+    "DJF": {
+      "minorUnits": 0
+    },
+    "DKK": {
+      "minorUnits": 2
+    },
+    "DOP": {
+      "minorUnits": 2
+    },
+    "DZD": {
+      "minorUnits": 2
+    },
+    "EGP": {
+      "minorUnits": 2
+    },
+    "ERN": {
+      "minorUnits": 2
+    },
+    "ETB": {
+      "minorUnits": 2
+    },
+    "EUR": {
+      "minorUnits": 2
+    },
+    "FJD": {
+      "minorUnits": 2
+    },
+    "FKP": {
+      "minorUnits": 2
+    },
+    "GBP": {
+      "minorUnits": 2
+    },
+    "GEL": {
+      "minorUnits": 2
+    },
+    "GHS": {
+      "minorUnits": 2
+    },
+    "GIP": {
+      "minorUnits": 2
+    },
+    "GMD": {
+      "minorUnits": 2
+    },
+    "GNF": {
+      "minorUnits": 0
+    },
+    "GTQ": {
+      "minorUnits": 2
+    },
+    "GYD": {
+      "minorUnits": 2
+    },
+    "HKD": {
+      "minorUnits": 2
+    },
+    "HNL": {
+      "minorUnits": 2
+    },
+    "HTG": {
+      "minorUnits": 2
+    },
+    "HUF": {
+      "minorUnits": 2
+    },
+    "IDR": {
+      "minorUnits": 2
+    },
+    "ILS": {
+      "minorUnits": 2
+    },
+    "INR": {
+      "minorUnits": 2
+    },
+    "IQD": {
+      "minorUnits": 3
+    },
+    "IRR": {
+      "minorUnits": 2
+    },
+    "ISK": {
+      "minorUnits": 0
+    },
+    "JMD": {
+      "minorUnits": 2
+    },
+    "JOD": {
+      "minorUnits": 3
+    },
+    "JPY": {
+      "minorUnits": 0
+    },
+    "KES": {
+      "minorUnits": 2
+    },
+    "KGS": {
+      "minorUnits": 2
+    },
+    "KHR": {
+      "minorUnits": 2
+    },
+    "KMF": {
+      "minorUnits": 0
+    },
+    "KPW": {
+      "minorUnits": 2
+    },
+    "KRW": {
+      "minorUnits": 0
+    },
+    "KWD": {
+      "minorUnits": 3
+    },
+    "KYD": {
+      "minorUnits": 2
+    },
+    "KZT": {
+      "minorUnits": 2
+    },
+    "LAK": {
+      "minorUnits": 2
+    },
+    "LBP": {
+      "minorUnits": 2
+    },
+    "LKR": {
+      "minorUnits": 2
+    },
+    "LRD": {
+      "minorUnits": 2
+    },
+    "LSL": {
+      "minorUnits": 2
+    },
+    "LYD": {
+      "minorUnits": 3
+    },
+    "MAD": {
+      "minorUnits": 2
+    },
+    "MDL": {
+      "minorUnits": 2
+    },
+    "MGA": {
+      "minorUnits": 2
+    },
+    "MKD": {
+      "minorUnits": 2
+    },
+    "MMK": {
+      "minorUnits": 2
+    },
+    "MNT": {
+      "minorUnits": 2
+    },
+    "MOP": {
+      "minorUnits": 2
+    },
+    "MRU": {
+      "minorUnits": 2
+    },
+    "MUR": {
+      "minorUnits": 2
+    },
+    "MVR": {
+      "minorUnits": 2
+    },
+    "MWK": {
+      "minorUnits": 2
+    },
+    "MXN": {
+      "minorUnits": 2
+    },
+    "MXV": {
+      "minorUnits": 2
+    },
+    "MYR": {
+      "minorUnits": 2
+    },
+    "MZN": {
+      "minorUnits": 2
+    },
+    "NAD": {
+      "minorUnits": 2
+    },
+    "NGN": {
+      "minorUnits": 2
+    },
+    "NIO": {
+      "minorUnits": 2
+    },
+    "NOK": {
+      "minorUnits": 2
+    },
+    "NPR": {
+      "minorUnits": 2
+    },
+    "NZD": {
+      "minorUnits": 2
+    },
+    "OMR": {
+      "minorUnits": 3
+    },
+    "PAB": {
+      "minorUnits": 2
+    },
+    "PEN": {
+      "minorUnits": 2
+    },
+    "PGK": {
+      "minorUnits": 2
+    },
+    "PHP": {
+      "minorUnits": 2
+    },
+    "PKR": {
+      "minorUnits": 2
+    },
+    "PLN": {
+      "minorUnits": 2
+    },
+    "PYG": {
+      "minorUnits": 0
+    },
+    "QAR": {
+      "minorUnits": 2
+    },
+    "RON": {
+      "minorUnits": 2
+    },
+    "RSD": {
+      "minorUnits": 2
+    },
+    "RUB": {
+      "minorUnits": 2
+    },
+    "RWF": {
+      "minorUnits": 0
+    },
+    "SAR": {
+      "minorUnits": 2
+    },
+    "SBD": {
+      "minorUnits": 2
+    },
+    "SCR": {
+      "minorUnits": 2
+    },
+    "SDG": {
+      "minorUnits": 2
+    },
+    "SEK": {
+      "minorUnits": 2
+    },
+    "SGD": {
+      "minorUnits": 2
+    },
+    "SHP": {
+      "minorUnits": 2
+    },
+    "SLE": {
+      "minorUnits": 2
+    },
+    "SOS": {
+      "minorUnits": 2
+    },
+    "SRD": {
+      "minorUnits": 2
+    },
+    "SSP": {
+      "minorUnits": 2
+    },
+    "STN": {
+      "minorUnits": 2
+    },
+    "SVC": {
+      "minorUnits": 2
+    },
+    "SYP": {
+      "minorUnits": 2
+    },
+    "SZL": {
+      "minorUnits": 2
+    },
+    "THB": {
+      "minorUnits": 2
+    },
+    "TJS": {
+      "minorUnits": 2
+    },
+    "TMT": {
+      "minorUnits": 2
+    },
+    "TND": {
+      "minorUnits": 3
+    },
+    "TOP": {
+      "minorUnits": 2
+    },
+    "TRY": {
+      "minorUnits": 2
+    },
+    "TTD": {
+      "minorUnits": 2
+    },
+    "TWD": {
+      "minorUnits": 2
+    },
+    "TZS": {
+      "minorUnits": 2
+    },
+    "UAH": {
+      "minorUnits": 2
+    },
+    "UGX": {
+      "minorUnits": 0
+    },
+    "USD": {
+      "minorUnits": 2
+    },
+    "USN": {
+      "minorUnits": 2
+    },
+    "UYI": {
+      "minorUnits": 0
+    },
+    "UYU": {
+      "minorUnits": 2
+    },
+    "UYW": {
+      "minorUnits": 4
+    },
+    "UZS": {
+      "minorUnits": 2
+    },
+    "VED": {
+      "minorUnits": 2
+    },
+    "VES": {
+      "minorUnits": 2
+    },
+    "VND": {
+      "minorUnits": 0
+    },
+    "VUV": {
+      "minorUnits": 0
+    },
+    "WST": {
+      "minorUnits": 2
+    },
+    "XAD": {
+      "minorUnits": 2
+    },
+    "XAF": {
+      "minorUnits": 0
+    },
+    "XAG": {
+      "minorUnits": null
+    },
+    "XAU": {
+      "minorUnits": null
+    },
+    "XBA": {
+      "minorUnits": null
+    },
+    "XBB": {
+      "minorUnits": null
+    },
+    "XBC": {
+      "minorUnits": null
+    },
+    "XBD": {
+      "minorUnits": null
+    },
+    "XCD": {
+      "minorUnits": 2
+    },
+    "XCG": {
+      "minorUnits": 2
+    },
+    "XDR": {
+      "minorUnits": null
+    },
+    "XOF": {
+      "minorUnits": 0
+    },
+    "XPD": {
+      "minorUnits": null
+    },
+    "XPF": {
+      "minorUnits": 0
+    },
+    "XPT": {
+      "minorUnits": null
+    },
+    "XSU": {
+      "minorUnits": null
+    },
+    "XTS": {
+      "minorUnits": null
+    },
+    "XUA": {
+      "minorUnits": null
+    },
+    "XXX": {
+      "minorUnits": null
+    },
+    "YER": {
+      "minorUnits": 2
+    },
+    "ZAR": {
+      "minorUnits": 2
+    },
+    "ZMW": {
+      "minorUnits": 2
+    },
+    "ZWG": {
+      "minorUnits": 2
+    }
+  }
+}

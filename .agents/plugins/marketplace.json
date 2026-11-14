@@ -1,0 +1,20 @@
+{
+  "name": "codex-marketplace-js-deep_ai-67f97eee",
+  "interface": {
+    "displayName": "Codex Plugins (JS+deep_AI)"
+  },
+  "plugins": [
+    {
+      "name": "build-web-apps",
+      "source": {
+        "source": "local",
+        "path": "./plugins/build-web-apps"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    }
+  ]
+}

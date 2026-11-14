@@ -1,0 +1,4 @@
+interface:
+  display_name: "Аудит финансовых API"
+  short_description: "Проверка ответов API и отчёт для backend-разработчиков"
+  default_prompt: "Используй $finance-api-audit: проверь текущие финансовые API и создай отчёт с JSON-путями, влиянием и рекомендациями; при возможности добавь PDF."

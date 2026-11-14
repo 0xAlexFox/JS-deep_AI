@@ -136,3 +136,71 @@ tbody tr + tr { border-top: 1px solid #edf0eb; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Общая навигация не размонтирует состояние отчёта. */
+.topbar { gap: 20px; flex-wrap: wrap; }
+.app-nav { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+.app-nav a { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 12px; border-radius: 7px; text-decoration: none; color: #536359; font-size: 12px; font-weight: 500; }
+.app-nav a:hover { background: #eaf0e9; color: var(--green); }
+.app-nav a.app-nav-active { background: #dfebe2; color: #174e3e; font-weight: 650; }
+.external-icon { display: inline-block; width: 11px; height: 11px; margin-left: 3px; vertical-align: -1px; }
+/* Заголовок получает фокус для объявления страницы, но не является контролом. */
+h1[tabindex="-1"]:focus { outline: none; }
+
+/* Источники: единый список с разделителями, без ложных статусов доступности. */
+.sources-heading { margin-bottom: 27px; }
+.sources-list { background: #fff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.source-row { display: grid; grid-template-columns: 38px minmax(0, 1.2fr) minmax(0, .9fr); gap: 24px; padding: 23px 25px; }
+.source-row + .source-row { border-top: 1px solid var(--border); }
+.source-number { color: var(--green); font-size: 19px; font-weight: 650; line-height: 1.4; }
+.source-description { min-width: 0; }
+.source-description h2 { font-size: 17px; line-height: 1.45; margin-bottom: 5px; }
+.source-endpoint { display: inline; padding: 3px 6px; border-radius: 5px; background: #f0f3ef; color: #33463b; font-size: 12px; line-height: 1.8; overflow-wrap: anywhere; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.source-description > p { margin-top: 5px; font-size: 14px; line-height: 1.55; }
+.source-rule { min-width: 0; border-left: 1px solid var(--border); padding: 5px 0 5px 24px; }
+.source-rule h3 { margin: 0; font-size: 16px; line-height: 1.45; font-weight: 600; }
+.source-rule p { margin-top: 6px; font-size: 13px; line-height: 1.7; color: var(--muted); }
+.source-example { margin-top: 6px; }
+.source-example summary { display: flex; align-items: center; gap: 6px; width: fit-content; min-height: 32px; font-size: 13px; color: #496052; cursor: pointer; list-style: none; }
+.source-example summary::-webkit-details-marker { display: none; }
+.source-example summary svg { width: 14px; height: 14px; flex: 0 0 auto; transition: transform .15s; }
+.source-example[open] summary svg { transform: rotate(180deg); }
+.source-example-content { margin-top: 7px; }
+.source-example-content p { font-size: 11px; line-height: 1.7; color: var(--muted); }
+.source-example pre { margin: 9px 0 0; padding: 13px; border-radius: 7px; background: #f5f7f3; color: #304b3a; font-size: 11px; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+.calculation-flow { margin-top: 29px; }
+.calculation-flow > h2 { font-size: 24px; letter-spacing: -.7px; }
+.calculation-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 23px; list-style: none; margin: 22px 0 0; padding: 0; }
+.calculation-steps li { display: flex; align-items: center; gap: 15px; min-width: 0; }
+.calculation-steps li > div { flex: 1; min-width: 0; }
+.calculation-steps h3 { font-size: 16px; font-weight: 600; line-height: 1.5; margin: 0; }
+.calculation-steps p { font-size: 13px; line-height: 1.7; color: var(--muted); margin-top: 4px; }
+.calculation-steps svg { width: 23px; height: 20px; flex: 0 0 auto; color: var(--green); }
+.source-security { display: flex; gap: 11px; align-items: flex-start; margin-top: 27px; color: var(--muted); font-size: 13px; line-height: 1.8; }
+.source-security svg { width: 16px; height: 19px; flex: 0 0 auto; color: #254838; margin-top: 1px; }
+.source-security strong { color: #304b3a; font-weight: 600; }
+.button-outline { color: var(--green); background: #fff; border: 1px solid var(--green); text-decoration: none; }
+.button-outline:hover { background: #edf4ed; }
+.sources-back { margin-top: 22px; min-height: 41px; }
+@media (max-width: 680px) {
+  .topbar { gap: 16px 10px; padding-bottom: 18px; }
+  .topbar .brand { flex: 1; }
+  .app-nav { order: 3; flex-basis: 100%; margin-left: 0; }
+  .app-nav a { min-height: 44px; font-size: 12px; }
+  .source-row { grid-template-columns: 27px minmax(0, 1fr); gap: 6px 14px; padding: 20px 17px; }
+  .source-number { font-size: 17px; }
+  .source-description h2 { font-size: 15px; }
+  .source-endpoint { font-size: 11px; }
+  .source-rule { grid-column: 2; border-left: 0; padding: 6px 0 0; }
+  .source-rule h3 { font-size: 13px; }
+  .source-rule p { margin-top: 3px; }
+  .source-example summary { min-height: 44px; }
+  .calculation-flow > h2 { font-size: 21px; }
+  .calculation-steps { grid-template-columns: 1fr; gap: 16px; margin-top: 18px; }
+  .calculation-steps li { align-items: flex-start; }
+  .calculation-steps svg { transform: rotate(90deg); margin-right: 4px; }
+  .source-security { margin-top: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .source-example summary svg { transition: none; }
+}
